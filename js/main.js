@@ -789,6 +789,74 @@ function initJellyfish() {
   requestAnimationFrame(loop);
 }
 
+/* ── PROTOTYPE LIGHTBOX ────────────────────────────────────── */
+
+function initLightbox() {
+  const thumbs = Array.from(document.querySelectorAll('.proto-thumb'));
+  if (!thumbs.length) return;
+
+  const images = thumbs.map(a => ({
+    src: a.dataset.full,
+    alt: a.querySelector('img').alt,
+  }));
+
+  // Build modal DOM
+  const overlay = document.createElement('div');
+  overlay.id = 'lightbox';
+  overlay.innerHTML = `
+    <button class="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-arrow lb-prev" aria-label="Previous">&#8249;</button>
+    <div class="lb-img-wrap">
+      <img class="lb-img" src="" alt=""/>
+    </div>
+    <button class="lb-arrow lb-next" aria-label="Next">&#8250;</button>
+    <div class="lb-counter"></div>
+  `;
+  document.body.appendChild(overlay);
+
+  const lbImg     = overlay.querySelector('.lb-img');
+  const lbCounter = overlay.querySelector('.lb-counter');
+  const lbPrev    = overlay.querySelector('.lb-prev');
+  const lbNext    = overlay.querySelector('.lb-next');
+  let current = 0;
+
+  function show(idx) {
+    current = (idx + images.length) % images.length;
+    lbImg.src = images[current].src;
+    lbImg.alt = images[current].alt;
+    lbCounter.textContent = `${current + 1} / ${images.length}`;
+    lbPrev.style.display = images.length > 1 ? '' : 'none';
+    lbNext.style.display = images.length > 1 ? '' : 'none';
+  }
+
+  function open(idx) {
+    show(idx);
+    overlay.classList.add('lb-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    overlay.classList.remove('lb-open');
+    document.body.style.overflow = '';
+  }
+
+  thumbs.forEach((a, i) => {
+    a.addEventListener('click', e => { e.preventDefault(); open(i); });
+  });
+
+  lbPrev.addEventListener('click', () => show(current - 1));
+  lbNext.addEventListener('click', () => show(current + 1));
+  overlay.querySelector('.lb-close').addEventListener('click', close);
+  overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+  document.addEventListener('keydown', e => {
+    if (!overlay.classList.contains('lb-open')) return;
+    if (e.key === 'ArrowLeft')  show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+    if (e.key === 'Escape')     close();
+  });
+}
+
 /* ── INIT ──────────────────────────────────────────────────── */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -798,4 +866,5 @@ document.addEventListener('DOMContentLoaded', () => {
   initNav();
   initAccordion();
   initDiveTabs();
+  initLightbox();
 });
