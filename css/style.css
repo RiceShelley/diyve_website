@@ -1142,6 +1142,47 @@ footer a:hover { color: var(--ocean-light); text-decoration: none; }
   100% { transform: scale(3);   opacity: 0;   }
 }
 
+/* ── PROTOTYPE GALLERY ─────────────────────────────────────── */
+
+.proto-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.proto-thumb {
+  display: block;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.proto-thumb:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 32px rgba(0, 150, 199, 0.18);
+  text-decoration: none;
+}
+
+.proto-thumb img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .proto-gallery { grid-template-columns: repeat(2, 1fr); }
+  .proto-thumb img { height: 160px; }
+}
+
+@media (max-width: 480px) {
+  .proto-gallery { grid-template-columns: 1fr; }
+  .proto-thumb img { height: 220px; }
+}
+
 /* ── RESPONSIVE ────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
