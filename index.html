@@ -17,11 +17,11 @@
   <div class="nav-inner">
     <span class="nav-brand"><span class="dot"></span> diyve</span>
     <ul class="nav-links">
-      <li><a href="#features">Features</a></li>
-      <li><a href="#hardware">Hardware</a></li>
       <li><a href="#prototype">Prototype</a></li>
       <li><a href="#divelogs">Dive Logs</a></li>
       <li><a href="#subsurface">Subsurface</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#hardware">Hardware</a></li>
       <li><a href="#docs">Docs</a></li>
       <li><a href="https://github.com/RiceShelley/dive_computer" target="_blank" rel="noopener">GitHub</a></li>
     </ul>
@@ -79,6 +79,137 @@
     <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
       <path d="M0,36 C180,72 360,0 540,36 C720,72 900,0 1080,36 C1260,72 1380,18 1440,36 L1440,72 L0,72 Z" fill="#fffcf7"/>
     </svg>
+  </div>
+</section>
+
+<!-- ── PROTOTYPE ──────────────────────────────────────────────── -->
+<section id="prototype">
+  <div class="section-inner">
+    <div class="section-label">Build Photos</div>
+    <h2 class="section-title">Prototype</h2>
+    <p class="section-desc">
+      Photos of the diyve hardware prototype — hand-wired on perfboard inside a GoPro housing.
+    </p>
+    <div class="proto-gallery">
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image0.jpeg">
+        <img src="assets/diyve_image0.jpeg" alt="diyve prototype photo 1" loading="lazy"/>
+      </a>
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image1.jpeg">
+        <img src="assets/diyve_image1.jpeg" alt="diyve prototype photo 2" loading="lazy"/>
+      </a>
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image2.jpeg">
+        <img src="assets/diyve_image2.jpeg" alt="diyve prototype photo 3" loading="lazy"/>
+      </a>
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image3.jpeg">
+        <img src="assets/diyve_image3.jpeg" alt="diyve prototype photo 4" loading="lazy"/>
+      </a>
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image4.jpeg">
+        <img src="assets/diyve_image4.jpeg" alt="diyve prototype photo 5" loading="lazy"/>
+      </a>
+      <a class="proto-thumb" href="#" data-full="assets/diyve_image5.jpeg">
+        <img src="assets/diyve_image5.jpeg" alt="diyve prototype photo 6" loading="lazy"/>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── DIVE LOGS ──────────────────────────────────────────────── -->
+<section id="divelogs">
+  <div class="section-inner">
+    <div class="section-label">Real Data</div>
+    <h2 class="section-title">Dive Log Viewer</h2>
+    <p class="section-desc">
+      Real dive profiles recorded during prototype testing on December 19, 2025.
+      Data parsed directly from the binary log files (<code>dive_00N.bin</code>).
+    </p>
+
+    <div class="dive-tabs" id="dive-tabs"></div>
+
+    <div class="dive-viewer">
+      <div class="dive-meta">
+        <div class="dive-meta-item">
+          <span class="mlbl">Date / Start</span>
+          <span class="mval" id="dive-meta-date">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Max Depth</span>
+          <span class="mval" id="dive-meta-depth">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Avg Temp</span>
+          <span class="mval" id="dive-meta-temp">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Duration</span>
+          <span class="mval" id="dive-meta-duration">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Log Entries</span>
+          <span class="mval" id="dive-meta-samples">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">File</span>
+          <span class="mval" id="dive-meta-file" style="font-size:0.85rem;font-family:monospace">—</span>
+        </div>
+      </div>
+      <div class="chart-area">
+        <div class="chart-container" id="dive-chart"></div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0096c7"></div>
+          Depth (ft) — left axis
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f4845f"></div>
+          Temperature (°C) — relative scale
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.25rem;font-size:0.82rem;color:var(--text-faint);">
+      Chart rendered from sampled binary records. Export full logs with
+      <code>dive_log_to_uddf.py -i dive_00N.bin -o out.uddf</code>
+    </p>
+  </div>
+</section>
+
+<!-- ── SUBSURFACE ────────────────────────────────────────────── -->
+<section id="subsurface">
+  <div class="section-inner">
+    <div class="section-label">Dive Software</div>
+    <h2 class="section-title">Subsurface Integration</h2>
+    <p class="section-desc">
+      Binary logs export to UDDF — the universal dive data format — making them
+      directly importable into <a href="https://subsurface-divelog.org" target="_blank" rel="noopener">Subsurface</a>,
+      the open-source dive log manager used by thousands of divers worldwide.
+    </p>
+
+    <div class="subsurface-layout">
+      <div class="subsurface-screenshot">
+        <img src="assets/subsurface_integration.png" alt="Diyve dive log imported into Subsurface showing depth profile and dive map" loading="lazy"/>
+      </div>
+      <div class="subsurface-details">
+        <h3>What you get in Subsurface</h3>
+        <ul class="subsurface-list">
+          <li>Full depth profile graph with time axis</li>
+          <li>Dive statistics — max depth, average depth, duration</li>
+          <li>GPS map view of the dive site</li>
+          <li>Dive logbook with notes, ratings, and buddy info</li>
+          <li>Cross-dive comparisons and trend analysis</li>
+          <li>Export to further formats (CSV, PDF dive reports)</li>
+        </ul>
+        <div class="subsurface-cmd">
+          <p style="font-size:0.75rem;color:var(--text-faint);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Export command</p>
+          <pre><code>python3 tools/dive_log_to_uddf.py \
+    -i dive_004.bin \
+    -o dive_004.uddf</code></pre>
+          <p style="font-size:0.85rem;color:var(--text-mid);margin-top:0.75rem;">
+            Then in Subsurface: <strong>Import → Import Log Files</strong> and select the <code>.uddf</code> file.
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -284,138 +415,6 @@
         <div class="pin-row"><span class="pin-num">GPIO 6</span><span class="pin-label">DC</span></div>
         <div class="pin-row"><span class="pin-num">GPIO 7</span><span class="pin-label">RST</span></div>
         <div class="pin-row"><span class="pin-num">GPIO 8</span><span class="pin-label">BUSY</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- ── PROTOTYPE ──────────────────────────────────────────────── -->
-<section id="prototype">
-  <div class="section-inner">
-    <div class="section-label">Build Photos</div>
-    <h2 class="section-title">Prototype</h2>
-    <p class="section-desc">
-      Photos of the diyve hardware prototype — hand-wired on perfboard inside a GoPro housing.
-    </p>
-    <div class="proto-gallery">
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image0.jpeg">
-        <img src="assets/diyve_image0.jpeg" alt="diyve prototype photo 1" loading="lazy"/>
-      </a>
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image1.jpeg">
-        <img src="assets/diyve_image1.jpeg" alt="diyve prototype photo 2" loading="lazy"/>
-      </a>
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image2.jpeg">
-        <img src="assets/diyve_image2.jpeg" alt="diyve prototype photo 3" loading="lazy"/>
-      </a>
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image3.jpeg">
-        <img src="assets/diyve_image3.jpeg" alt="diyve prototype photo 4" loading="lazy"/>
-      </a>
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image4.jpeg">
-        <img src="assets/diyve_image4.jpeg" alt="diyve prototype photo 5" loading="lazy"/>
-      </a>
-      <a class="proto-thumb" href="#" data-full="assets/diyve_image5.jpeg">
-        <img src="assets/diyve_image5.jpeg" alt="diyve prototype photo 6" loading="lazy"/>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ── DIVE LOGS ──────────────────────────────────────────────── -->
-<section id="divelogs">
-  <div class="section-inner">
-    <div class="section-label">Real Data</div>
-    <h2 class="section-title">Dive Log Viewer</h2>
-    <p class="section-desc">
-      Real dive profiles recorded during prototype testing on December 19, 2025.
-      Data parsed directly from the binary log files (<code>dive_00N.bin</code>).
-    </p>
-
-    <div class="dive-tabs" id="dive-tabs"></div>
-
-    <div class="dive-viewer">
-      <div class="dive-meta">
-        <div class="dive-meta-item">
-          <span class="mlbl">Date / Start</span>
-          <span class="mval" id="dive-meta-date">—</span>
-        </div>
-        <div class="dive-meta-item">
-          <span class="mlbl">Max Depth</span>
-          <span class="mval" id="dive-meta-depth">—</span>
-        </div>
-        <div class="dive-meta-item">
-          <span class="mlbl">Avg Temp</span>
-          <span class="mval" id="dive-meta-temp">—</span>
-        </div>
-        <div class="dive-meta-item">
-          <span class="mlbl">Duration</span>
-          <span class="mval" id="dive-meta-duration">—</span>
-        </div>
-        <div class="dive-meta-item">
-          <span class="mlbl">Log Entries</span>
-          <span class="mval" id="dive-meta-samples">—</span>
-        </div>
-        <div class="dive-meta-item">
-          <span class="mlbl">File</span>
-          <span class="mval" id="dive-meta-file" style="font-size:0.85rem;font-family:monospace">—</span>
-        </div>
-      </div>
-      <div class="chart-area">
-        <div class="chart-container" id="dive-chart"></div>
-      </div>
-      <div class="chart-legend">
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#0096c7"></div>
-          Depth (ft) — left axis
-        </div>
-        <div class="legend-item">
-          <div class="legend-dot" style="background:#f4845f"></div>
-          Temperature (°C) — relative scale
-        </div>
-      </div>
-    </div>
-
-    <p style="margin-top:1.25rem;font-size:0.82rem;color:var(--text-faint);">
-      Chart rendered from sampled binary records. Export full logs with
-      <code>dive_log_to_uddf.py -i dive_00N.bin -o out.uddf</code>
-    </p>
-  </div>
-</section>
-
-<!-- ── SUBSURFACE ────────────────────────────────────────────── -->
-<section id="subsurface">
-  <div class="section-inner">
-    <div class="section-label">Dive Software</div>
-    <h2 class="section-title">Subsurface Integration</h2>
-    <p class="section-desc">
-      Binary logs export to UDDF — the universal dive data format — making them
-      directly importable into <a href="https://subsurface-divelog.org" target="_blank" rel="noopener">Subsurface</a>,
-      the open-source dive log manager used by thousands of divers worldwide.
-    </p>
-
-    <div class="subsurface-layout">
-      <div class="subsurface-screenshot">
-        <img src="assets/subsurface_integration.png" alt="Diyve dive log imported into Subsurface showing depth profile and dive map" loading="lazy"/>
-      </div>
-      <div class="subsurface-details">
-        <h3>What you get in Subsurface</h3>
-        <ul class="subsurface-list">
-          <li>Full depth profile graph with time axis</li>
-          <li>Dive statistics — max depth, average depth, duration</li>
-          <li>GPS map view of the dive site</li>
-          <li>Dive logbook with notes, ratings, and buddy info</li>
-          <li>Cross-dive comparisons and trend analysis</li>
-          <li>Export to further formats (CSV, PDF dive reports)</li>
-        </ul>
-        <div class="subsurface-cmd">
-          <p style="font-size:0.75rem;color:var(--text-faint);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Export command</p>
-          <pre><code>python3 tools/dive_log_to_uddf.py \
-    -i dive_004.bin \
-    -o dive_004.uddf</code></pre>
-          <p style="font-size:0.85rem;color:var(--text-mid);margin-top:0.75rem;">
-            Then in Subsurface: <strong>Import → Import Log Files</strong> and select the <code>.uddf</code> file.
-          </p>
-        </div>
       </div>
     </div>
   </div>
