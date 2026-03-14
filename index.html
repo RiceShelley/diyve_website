@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>diyve — Open Source DIY Dive Computer</title>
+  <meta name="description" content="diyve: a custom wrist-worn DIY dive computer built on Raspberry Pi Pico with e-paper display, pressure sensor, and SD card logging. Fully open source under MIT license.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,700;1,9..144,800&family=Josefin+Sans:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <span class="nav-brand"><span class="dot"></span> diyve</span>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#hardware">Hardware</a></li>
+      <li><a href="#divelogs">Dive Logs</a></li>
+      <li><a href="#subsurface">Subsurface</a></li>
+      <li><a href="#docs">Docs</a></li>
+      <li><a href="https://github.com/RiceShelley/dive_computer" target="_blank" rel="noopener">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────────── -->
+<section class="hero">
+  <!-- Animated bubbles -->
+  <div class="bubbles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span>
+  </div>
+
+  <div id="fish-layer" aria-hidden="true"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">🤿 Open Source &nbsp;·&nbsp; MIT License</div>
+    <h1>
+      <em>Experimental DIY Dive Computer For Makers</em>
+      diyve
+    </h1>
+    <p class="hero-tagline">
+      A wrist-worn DIY dive computer built on Raspberry Pi Pico with an e-paper display,
+      pressure-based depth sensing, and on-device dive logging.
+    </p>
+
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="val">RP2040</span>
+        <span class="lbl">Raspberry Pi Pico</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">1.54"</span>
+        <span class="lbl">E-Paper Display</span>
+      </div>
+      <div class="hero-stat">
+        <span class="val">MIT</span>
+        <span class="lbl">License</span>
+      </div>
+    </div>
+
+    <div class="hero-actions">
+      <a href="https://github.com/RiceShelley/dive_computer" target="_blank" rel="noopener" class="btn btn-primary">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12c0-6.63-5.37-12-12-12"/></svg>
+        View on GitHub
+      </a>
+      <a href="#divelogs" class="btn btn-outline">See Dive Logs</a>
+    </div>
+  </div>
+
+  <!-- Wave transition to features section -->
+  <div class="wave-divider" aria-hidden="true">
+    <svg viewBox="0 0 1440 72" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,36 C180,72 360,0 540,36 C720,72 900,0 1080,36 C1260,72 1380,18 1440,36 L1440,72 L0,72 Z" fill="#fffcf7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ── FEATURES ──────────────────────────────────────────────── -->
+<section id="features">
+  <div class="section-inner">
+    <div class="section-label">What it does</div>
+    <h2 class="section-title">Features</h2>
+    <p class="section-desc">
+      Open hardware and software — every component and line of code is publicly available.
+    </p>
+
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">📡</div>
+        <h3>Depth &amp; Temperature</h3>
+        <p>MS5803 pressure sensor over I2C. Reads depth and water temperature in real time at 1 Hz.</p>
+        <span class="tag">MS5803 · I2C @ 0x76</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖥️</div>
+        <h3>E-Paper Display</h3>
+        <p>1.54" 200×200 e-paper display. Readable underwater, low power, partial refresh for fast updates.</p>
+        <span class="tag">1.54" Waveshare · SPI · Partial Refresh</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💾</div>
+        <h3>Dive Logging</h3>
+        <p>Logs depth and temperature to SD card at 1 Hz. Exports to UDDF for use in Subsurface and other dive software.</p>
+        <span class="tag">SD Card · 15 B/sample · UDDF Export</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🕹️</div>
+        <h3>2-Button UI</h3>
+        <p>Four screens: Menu, Dive, Logs, and Settings. TOP button navigates, SIDE button selects. Long-press to start or end a dive.</p>
+        <span class="tag">Menu · Dive · Logs · Settings</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🖨️</div>
+        <h3>3D-Printed Housing</h3>
+        <p>Custom wrist-worn enclosure in a GoPro housing. OpenSCAD source files included in the repo.</p>
+        <span class="tag">OpenSCAD · GoPro Housing</span>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔓</div>
+        <h3>Fully Open Source</h3>
+        <p>C firmware, Python log converter, and all hardware files under the MIT license.</p>
+        <span class="tag">MIT License · C Firmware · Python Tools</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── HARDWARE ───────────────────────────────────────────────── -->
+<section id="hardware">
+  <div class="section-inner">
+    <div class="section-label">Bill of Materials</div>
+    <h2 class="section-title">Hardware</h2>
+    <p class="section-desc">
+      Built around the Raspberry Pi Pico — affordable, well-documented, and
+      supported by a mature SDK. All parts sourced from Amazon.
+    </p>
+
+    <div class="hw-bom-wrap">
+      <table class="bom-table">
+        <thead>
+          <tr><th>#</th><th>Component</th><th>Role</th><th>Est. Cost</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="bom-num">1</td>
+            <td><a href="https://www.amazon.com/dp/B0BDLHMQ9C" target="_blank" rel="noopener">Raspberry Pi Pico (RP2040)</a></td>
+            <td>Main MCU — dual-core ARM Cortex-M0+</td>
+            <td class="bom-price">$15</td>
+          </tr>
+          <tr>
+            <td class="bom-num">2</td>
+            <td><a href="https://www.amazon.com/dp/B0BP8JYWGN" target="_blank" rel="noopener">MS5803 Pressure Sensor</a></td>
+            <td>Depth + temperature via I2C1 (addr 0x76, SDA=GPIO2, SCL=GPIO3)</td>
+            <td class="bom-price">$70</td>
+          </tr>
+          <tr>
+            <td class="bom-num">3</td>
+            <td><a href="https://www.amazon.com/dp/B09KPC8JZQ" target="_blank" rel="noopener">DS3231 RTC Module</a></td>
+            <td>Accurate timestamps for dive logs via I2C0 (GPIO4/5)</td>
+            <td class="bom-price">$8</td>
+          </tr>
+          <tr>
+            <td class="bom-num">4</td>
+            <td><a href="https://www.amazon.com/dp/B072Q4WTWH" target="_blank" rel="noopener">Waveshare 1.54" E-Paper</a></td>
+            <td>200×200 display, partial refresh, SPI1</td>
+            <td class="bom-price">$18</td>
+          </tr>
+          <tr>
+            <td class="bom-num">5</td>
+            <td><a href="https://www.amazon.com/dp/B0BV8ZQ81F" target="_blank" rel="noopener">SD Card Breakout</a></td>
+            <td>FAT filesystem log storage via SPI0</td>
+            <td class="bom-price">$7</td>
+          </tr>
+          <tr>
+            <td class="bom-num">6</td>
+            <td><a href="https://www.amazon.com/dp/B0CYT2KL98" target="_blank" rel="noopener">MicroSD Card</a></td>
+            <td>Storage media for binary dive logs</td>
+            <td class="bom-price">$10</td>
+          </tr>
+          <tr>
+            <td class="bom-num">7</td>
+            <td><a href="https://www.amazon.com/dp/B07BTLN9SX" target="_blank" rel="noopener">LiPo Battery (3.7V)</a></td>
+            <td>Rechargeable power source</td>
+            <td class="bom-price">$8</td>
+          </tr>
+          <tr>
+            <td class="bom-num">8</td>
+            <td><a href="https://www.amazon.com/dp/B07PKND8KG" target="_blank" rel="noopener">LiPo Charger (TP4056)</a></td>
+            <td>USB charging module for LiPo cell</td>
+            <td class="bom-price">$6</td>
+          </tr>
+          <tr>
+            <td class="bom-num">9</td>
+            <td><a href="https://www.amazon.com/dp/B0FC2CTR7F" target="_blank" rel="noopener">Schottky Diode</a></td>
+            <td>Power path protection</td>
+            <td class="bom-price">$6</td>
+          </tr>
+          <tr>
+            <td class="bom-num">10</td>
+            <td><a href="https://www.amazon.com/dp/B0FG9872XQ" target="_blank" rel="noopener">Slide Switch</a></td>
+            <td>On/off switch for battery circuit</td>
+            <td class="bom-price">$9</td>
+          </tr>
+          <tr>
+            <td class="bom-num">11</td>
+            <td><a href="https://www.amazon.com/dp/B09R3ZPWJ7" target="_blank" rel="noopener">Momentary Buttons (×2)</a></td>
+            <td>TOP (navigate) + SIDE (select / long-press)</td>
+            <td class="bom-price">$7</td>
+          </tr>
+          <tr>
+            <td class="bom-num">12</td>
+            <td><a href="https://www.amazon.com/dp/B0CZ6W18F6" target="_blank" rel="noopener">Perfboard</a></td>
+            <td>52×72.5mm custom PCB base</td>
+            <td class="bom-price">$5</td>
+          </tr>
+          <tr>
+            <td class="bom-num">13</td>
+            <td><a href="https://www.amazon.com/dp/B0FCTSSLK9" target="_blank" rel="noopener">Pin Headers</a></td>
+            <td>Module interconnects</td>
+            <td class="bom-price">$8</td>
+          </tr>
+          <tr>
+            <td class="bom-num">14</td>
+            <td><a href="https://www.amazon.com/dp/B09Y8GWYYD" target="_blank" rel="noopener">Hookup Wire</a></td>
+            <td>Point-to-point wiring on perfboard</td>
+            <td class="bom-price">$13</td>
+          </tr>
+          <tr>
+            <td class="bom-num">15</td>
+            <td><a href="https://www.amazon.com/dp/B08LD4VXGL" target="_blank" rel="noopener">GoPro Waterproof Housing</a></td>
+            <td>Waterproof outer enclosure; 3D-printed brackets mount internals inside</td>
+            <td class="bom-price">$19</td>
+          </tr>
+          <tr>
+            <td class="bom-num">16</td>
+            <td><a href="https://www.amazon.com/dp/B001Z3C3AG" target="_blank" rel="noopener">Two-Part Epoxy</a></td>
+            <td>Seal pressure sensor port through housing wall</td>
+            <td class="bom-price">$6</td>
+          </tr>
+          <tr>
+            <td class="bom-num">17</td>
+            <td><a href="https://www.amazon.com/dp/B0CQJB5FC5" target="_blank" rel="noopener">RP2040 Debug Probe</a> <span class="bom-tag">dev only</span></td>
+            <td>SWD debugger for flashing &amp; on-device debugging</td>
+            <td class="bom-price">$30</td>
+          </tr>
+          <tr class="bom-total-row">
+            <td colspan="3">Total <span style="font-weight:400;font-size:0.8rem;color:var(--text-light)">(excl. debug probe)</span></td>
+            <td class="bom-price">$215</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pin-section">
+      <p style="font-size:0.85rem;color:var(--text-mid);margin-bottom:1rem;">
+        Pin assignments from <code>diyve_pins.h</code>
+      </p>
+      <div class="pin-grid">
+        <div class="pin-group-label">Buttons</div>
+        <div class="pin-row"><span class="pin-num">GPIO 28</span><span class="pin-label">TOP button (navigate)</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 27</span><span class="pin-label">SIDE button (select)</span></div>
+        <div class="pin-group-label">I²C Sensors</div>
+        <div class="pin-row"><span class="pin-num">GPIO 2/3</span><span class="pin-label">MS5803 SDA/SCL (i2c1)</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 4/5</span><span class="pin-label">DS3231 SDA/SCL (i2c0)</span></div>
+        <div class="pin-group-label">SD Card (SPI0)</div>
+        <div class="pin-row"><span class="pin-num">GPIO 16–19</span><span class="pin-label">MISO / CS / SCK / MOSI</span></div>
+        <div class="pin-group-label">E-Paper Display (SPI1)</div>
+        <div class="pin-row"><span class="pin-num">GPIO 10/11</span><span class="pin-label">CLK / MOSI</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 13</span><span class="pin-label">CS</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 6</span><span class="pin-label">DC</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 7</span><span class="pin-label">RST</span></div>
+        <div class="pin-row"><span class="pin-num">GPIO 8</span><span class="pin-label">BUSY</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ── DIVE LOGS ──────────────────────────────────────────────── -->
+<section id="divelogs">
+  <div class="section-inner">
+    <div class="section-label">Real Data</div>
+    <h2 class="section-title">Dive Log Viewer</h2>
+    <p class="section-desc">
+      Real dive profiles recorded during prototype testing on December 19, 2025.
+      Data parsed directly from the binary log files (<code>dive_00N.bin</code>).
+    </p>
+
+    <div class="dive-tabs" id="dive-tabs"></div>
+
+    <div class="dive-viewer">
+      <div class="dive-meta">
+        <div class="dive-meta-item">
+          <span class="mlbl">Date / Start</span>
+          <span class="mval" id="dive-meta-date">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Max Depth</span>
+          <span class="mval" id="dive-meta-depth">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Avg Temp</span>
+          <span class="mval" id="dive-meta-temp">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Duration</span>
+          <span class="mval" id="dive-meta-duration">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">Log Entries</span>
+          <span class="mval" id="dive-meta-samples">—</span>
+        </div>
+        <div class="dive-meta-item">
+          <span class="mlbl">File</span>
+          <span class="mval" id="dive-meta-file" style="font-size:0.85rem;font-family:monospace">—</span>
+        </div>
+      </div>
+      <div class="chart-area">
+        <div class="chart-container" id="dive-chart"></div>
+      </div>
+      <div class="chart-legend">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#0096c7"></div>
+          Depth (ft) — left axis
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f4845f"></div>
+          Temperature (°C) — relative scale
+        </div>
+      </div>
+    </div>
+
+    <p style="margin-top:1.25rem;font-size:0.82rem;color:var(--text-faint);">
+      Chart rendered from sampled binary records. Export full logs with
+      <code>dive_log_to_uddf.py -i dive_00N.bin -o out.uddf</code>
+    </p>
+  </div>
+</section>
+
+<!-- ── SUBSURFACE ────────────────────────────────────────────── -->
+<section id="subsurface">
+  <div class="section-inner">
+    <div class="section-label">Dive Software</div>
+    <h2 class="section-title">Subsurface Integration</h2>
+    <p class="section-desc">
+      Binary logs export to UDDF — the universal dive data format — making them
+      directly importable into <a href="https://subsurface-divelog.org" target="_blank" rel="noopener">Subsurface</a>,
+      the open-source dive log manager used by thousands of divers worldwide.
+    </p>
+
+    <div class="subsurface-layout">
+      <div class="subsurface-screenshot">
+        <img src="assets/subsurface_integration.png" alt="Diyve dive log imported into Subsurface showing depth profile and dive map" loading="lazy"/>
+      </div>
+      <div class="subsurface-details">
+        <h3>What you get in Subsurface</h3>
+        <ul class="subsurface-list">
+          <li>Full depth profile graph with time axis</li>
+          <li>Dive statistics — max depth, average depth, duration</li>
+          <li>GPS map view of the dive site</li>
+          <li>Dive logbook with notes, ratings, and buddy info</li>
+          <li>Cross-dive comparisons and trend analysis</li>
+          <li>Export to further formats (CSV, PDF dive reports)</li>
+        </ul>
+        <div class="subsurface-cmd">
+          <p style="font-size:0.75rem;color:var(--text-faint);margin-bottom:0.5rem;text-transform:uppercase;letter-spacing:0.1em;font-weight:700;">Export command</p>
+          <pre><code>python3 tools/dive_log_to_uddf.py \
+    -i dive_004.bin \
+    -o dive_004.uddf</code></pre>
+          <p style="font-size:0.85rem;color:var(--text-mid);margin-top:0.75rem;">
+            Then in Subsurface: <strong>Import → Import Log Files</strong> and select the <code>.uddf</code> file.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── DOCS ───────────────────────────────────────────────────── -->
+<section id="docs">
+  <div class="section-inner">
+    <div class="section-label">Documentation</div>
+    <h2 class="section-title">Getting Started</h2>
+    <p class="section-desc">
+      Everything you need to build, flash, and use diyve.
+    </p>
+
+    <div class="accordion">
+
+      <div class="acc-item open">
+        <div class="acc-header">
+          <h3><span class="acc-icon">⚡</span>Building the Firmware</h3>
+          <span class="acc-chevron">▾</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <p>Clone the repo, then run the program script — it handles building and flashing in one step:</p>
+            <pre><code>git clone https://github.com/RiceShelley/dive_computer
+cd dive_computer
+./program.sh</code></pre>
+            <p style="margin-top:0.75rem;">
+              Prerequisites: <code>cmake</code>, <code>ninja</code>, <code>arm-none-eabi-gcc</code>, the Pico SDK, and an RP2040 debug probe connected via SWD.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header">
+          <h3><span class="acc-icon">🔌</span>Hardware Wiring</h3>
+          <span class="acc-chevron">▾</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <p>All pin assignments are defined in <code>src/include/diyve_pins.h</code>:</p>
+            <pre><code>// Pressure sensor — MS5803 via i2c1
+MS5803_I2C_SDA_PIN  = GPIO 2
+MS5803_I2C_SCL_PIN  = GPIO 3
+
+// Real-time clock — DS3231 via i2c0
+DS3231_SDA_PIN      = GPIO 4 (PICO_DEFAULT_I2C_SDA)
+DS3231_SCL_PIN      = GPIO 5 (PICO_DEFAULT_I2C_SCL)
+
+// SD card — SPI port 0
+SD_SPI_MISO_PIN     = GPIO 16
+SD_SPI_SS_PIN       = GPIO 17
+SD_SPI_SCK_PIN      = GPIO 18
+SD_SPI_MOSI_PIN     = GPIO 19
+
+// E-Paper — SPI port 1
+EPD_CLK_PIN         = GPIO 10
+EPD_MOSI_PIN        = GPIO 11
+EPD_CS_PIN          = GPIO 13
+EPD_DC_PIN          = GPIO 6
+EPD_RST_PIN         = GPIO 7
+EPD_BUSY_PIN        = GPIO 8
+
+// Buttons (active low, pull-up)
+TOP_BUTTON_PIN      = GPIO 28  (navigate)
+SIDE_BUTTON_PIN     = GPIO 27  (select / long-press)</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header">
+          <h3><span class="acc-icon">🖨️</span>3D Printing the Enclosure</h3>
+          <span class="acc-chevron">▾</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <p>
+              The mechanical design files (STL / source) are included in the
+              <code>mechanical/</code> directory of the repository. Designed for
+              FDM printing with standard PLA or PETG.
+            </p>
+            <p style="margin-top:0.6rem;">
+              Recommended print settings: 0.2mm layer height, 20% infill, no supports
+              required for the main body. The wrist strap mount accepts standard
+              20mm watch bands.
+            </p>
+            <p style="margin-top:0.6rem;">
+              See the
+              <a href="https://github.com/RiceShelley/dive_computer" target="_blank" rel="noopener">
+                GitHub repository
+              </a>
+              for the latest mechanical files and assembly notes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header">
+          <h3><span class="acc-icon">📤</span>Exporting Dive Logs</h3>
+          <span class="acc-chevron">▾</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <p>
+              Copy <code>dive_00N.bin</code> files from the SD card to your computer,
+              then run the Python converter:
+            </p>
+            <pre><code># Install Python 3 (no extra packages needed)
+# Convert a single dive
+python3 dive_log_to_uddf.py \
+    -i logs/dive_004.bin \
+    -o dive_004.uddf
+
+# The output is UDDF 3.2.0 XML — import it into
+# Subsurface, DivingLog, or any compatible app</code></pre>
+            <p style="margin-top:0.75rem;">
+              The binary format is <code>&lt;HBBBBBff</code> (little-endian):
+              2-byte year, five 1-byte time fields, two 4-byte floats (temp °C, depth m).
+              15 bytes per record.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <div class="acc-header">
+          <h3><span class="acc-icon">🐛</span>Debugging &amp; Development</h3>
+          <span class="acc-chevron">▾</span>
+        </div>
+        <div class="acc-body">
+          <div class="acc-content">
+            <p>
+              The project includes VSCode tasks and launch configurations for
+              debugging via OpenOCD and a picoprobe/SWD adapter.
+            </p>
+            <pre><code># Flash and debug via OpenOCD (from .vscode/tasks.json)
+openocd -f interface/cmsis-dap.cfg \
+        -f target/rp2040.cfg \
+        -c "program build/diyve.elf verify reset exit"</code></pre>
+            <p style="margin-top:0.75rem;">
+              Use the VSCode CMake extension with the kit defined in
+              <code>.vscode/cmake-kits.json</code> for a full IDE experience
+              including IntelliSense and breakpoint debugging.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-inner">
+    <p>
+      <strong>diyve</strong> &nbsp;·&nbsp; diyve.org &nbsp;·&nbsp; MIT License &copy; 2025
+      &mdash;
+      <a href="https://github.com/RiceShelley/dive_computer" target="_blank" rel="noopener">
+        github.com/RiceShelley/dive_computer
+      </a>
+    </p>
+    <p style="color:rgba(255,255,255,0.38)">
+      Built with Raspberry Pi Pico · Open hardware &amp; software
+    </p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
